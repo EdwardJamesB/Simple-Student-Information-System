@@ -41,17 +41,28 @@ def add_student():
 
     # Function to handle the add student button click event
     def add_student_button_click():
-        student_data = [
-            entry_id.get(),
-            entry_first_name.get(),
-            entry_last_name.get(),
-            entry_gender.get(),
-            entry_year.get(),
-            entry_course.get()
-        ]
+        student_id = entry_id.get()
+
+        # Check if student ID already exists
+        with open('students.csv', 'r', newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if row[0] == student_id:
+                    messagebox.showerror("Error", "Student with ID Number already exists.")
+                    return
+
+        # Get input data from the remaining fields
+        first_name = entry_first_name.get()
+        last_name = entry_last_name.get()
+        gender = entry_gender.get()
+        year = entry_year.get()
+        course = entry_course.get()
+
+        # Append new student data to CSV
         with open('students.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(student_data)
+            writer.writerow([student_id, first_name, last_name, gender, year, course])
+
         messagebox.showinfo("Success", "Student added successfully.")
         add_student_window.destroy()
 
@@ -66,7 +77,7 @@ def add_course():
     add_course_window.title("Add Course")
 
     # Create input fields and labels
-    label_id = tk.Label(add_course_window, text="ID:")
+    label_id = tk.Label(add_course_window, text="Course Code:")
     label_id.grid(row=0, column=0)
     entry_id = tk.Entry(add_course_window)
     entry_id.grid(row=0, column=1)
@@ -76,21 +87,32 @@ def add_course():
     entry_name = tk.Entry(add_course_window)
     entry_name.grid(row=1, column=1)
 
-    label_code = tk.Label(add_course_window, text="Code:")
+    label_code = tk.Label(add_course_window, text="College:")
     label_code.grid(row=2, column=0)
     entry_code = tk.Entry(add_course_window)
     entry_code.grid(row=2, column=1)
 
     # Function to handle the add course button click event
     def add_course_button_click():
-        course_data = [
-            entry_id.get(),
-            entry_name.get(),
-            entry_code.get()
-        ]
+        course_code = entry_id.get()
+
+        # Check if course code already exists
+        with open('courses.csv', 'r', newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if row[0] == course_code:
+                    messagebox.showerror("Error", "Course code already exists.")
+                    return
+
+        # Get input data from the remaining fields
+        course_name = entry_name.get()
+        course_college = entry_code.get()
+
+        # Append new course data to CSV
         with open('courses.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(course_data)
+            writer.writerow([course_code, course_name, course_college])
+
         messagebox.showinfo("Success", "Course added successfully.")
         add_course_window.destroy()
 
@@ -141,7 +163,7 @@ def delete_course():
     delete_course_window.title("Delete Course")
 
     # Create input fields and labels
-    label_id = tk.Label(delete_course_window, text="ID:")
+    label_id = tk.Label(delete_course_window, text="Course Code:")
     label_id.grid(row=0, column=0)
     entry_id = tk.Entry(delete_course_window)
     entry_id.grid(row=0, column=1)
