@@ -3,27 +3,66 @@ import csv
 # Function to add a student
 def add_student():
     student_data = []
+
+    # Get input data from user
+    student_data.append(input("Enter ID Number: "))
+
+    # Read existing data from CSV
+    with open('students.csv', 'r', newline='') as file:
+        reader = csv.reader(file)
+        existing_data = list(reader)
+
+    # Check if input ID already exists
+    for row in existing_data:
+        if student_data[0] == row[0]:
+            print("Student with ID Number", student_data[0], "already exists.")
+            input("Press Enter to return to the main menu...")
+            return
+
+    # Collect remaining input data
+    student_data.append(input("Enter First Name: "))
+    student_data.append(input("Enter Last Name: "))
+    student_data.append(input("Enter Gender: "))
+    student_data.append(input("Enter Year: "))
+    student_data.append(input("Enter Course: "))
+
+    # Append new student data to CSV
     with open('students.csv', 'a', newline='') as file:
         writer = csv.writer(file)
-        student_data.append(input("Enter ID Number: "))
-        student_data.append(input("Enter First Name: "))
-        student_data.append(input("Enter Last Name: "))
-        student_data.append(input("Enter Gender: "))
-        student_data.append(input("Enter Year: "))
-        student_data.append(input("Enter Course: "))
         writer.writerow(student_data)
+
     print("Student added successfully.")
+    input("Press Enter to return to the main menu...")
 
 # Function to add a course
 def add_course():
     course_data = []
+    
+    # Get input data from user
+    course_data.append(input("Enter Course Code: "))
+
+    # Read existing data from CSV
+    with open('courses.csv', 'r', newline='') as file:
+        reader = csv.reader(file)
+        existing_data = list(reader)
+
+    # Check if input ID already exists
+    for row in existing_data:
+        if course_data[0] == row[0]:
+            print("Course with ID Number", course_data[0], "already exists.")
+            input("Press Enter to return to the main menu...")
+            return
+        
+    # Collect remaining input data
+    course_data.append(input("Enter Name: "))
+    course_data.append(input("Enter College: "))
+    
     with open('courses.csv', 'a', newline='') as file:
         writer = csv.writer(file)
-        course_data.append(input("Enter ID: "))
-        course_data.append(input("Enter Name: "))
-        course_data.append(input("Enter Code: "))
         writer.writerow(course_data)
+
     print("Course added successfully.")
+    input("Press Enter to return to the main menu...")
 
 # Function to delete a student
 def delete_student():
@@ -44,9 +83,11 @@ def delete_student():
     else:
         print("Student not found.")
 
+    input("Press Enter to return to the main menu...")
+
 # Function to delete a course
 def delete_course():
-    course_id = input("Enter the ID of the course to delete: ")
+    course_id = input("Enter the Course Code of the course to delete: ")
     rows_deleted = 0
     with open('courses.csv', 'r', newline='') as file:
         reader = csv.reader(file)
@@ -60,6 +101,10 @@ def delete_course():
                 rows_deleted += 1
     if rows_deleted > 0:
         print(f"Deleted {rows_deleted} course(s) successfully.")
+    else:
+        print("Course not found.")
+
+    input("Press Enter to return to the main menu...")
 
 # Function to edit a student
 def edit_student():
@@ -78,12 +123,16 @@ def edit_student():
             writer.writerow(row)
     print("Student edited successfully.")
 
+    input("Press Enter to return to the main menu...")
+
 # Function to list students
 def list_students():
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             print(row)
+    
+    input("Press Enter to return to the main menu...")
 
 # Function to list courses
 def list_courses():
@@ -91,6 +140,8 @@ def list_courses():
         reader = csv.reader(file)
         for row in reader:
             print(row)
+
+    input("Press Enter to return to the main menu...")
 
 # Function to search student by name
 def search_student_by_name():
@@ -108,6 +159,7 @@ def search_student_by_name():
     else:
         print("No student found with the given name.")
 
+    input("Press Enter to return to the main menu...")
 # Function to search student by ID Number
 def search_student_by_id():
     search_id = input("Enter the ID Number of the student to search: ")
@@ -122,6 +174,8 @@ def search_student_by_id():
             print(student)
     else:
         print("No student found with the given ID Number.")
+
+    input("Press Enter to return to the main menu...")
 
 # Main menu
 def main_menu():
