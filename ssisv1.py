@@ -89,9 +89,11 @@ def delete_student():
 def delete_course():
     course_id = input("Enter the Course Code of the course to delete: ")
     rows_deleted = 0
+
     with open('courses.csv', 'r', newline='') as file:
         reader = csv.reader(file)
         rows = list(reader)
+
     with open('courses.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         for row in rows:
@@ -99,6 +101,7 @@ def delete_course():
                 writer.writerow(row)
             else:
                 rows_deleted += 1
+
     if rows_deleted > 0:
         print(f"Deleted {rows_deleted} course(s) successfully.")
     else:
@@ -109,9 +112,12 @@ def delete_course():
 # Function to edit a student
 def edit_student():
     student_id = input("Enter the ID Number of the student to edit: ")
+    found = False  # Flag to track if the student is found
+
     with open('students.csv', 'r', newline='') as file:
         reader = csv.reader(file)
         rows = list(reader)
+
     with open('students.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         for row in rows:
@@ -121,7 +127,11 @@ def edit_student():
                 row[3] = input("Enter Gender: ")
                 row[4] = input("Enter Year: ")
             writer.writerow(row)
-    print("Student edited successfully.")
+
+    if found:
+        print("Student edited successfully.")
+    else:
+        print("No student found with ID number:", student_id)
 
     input("Press Enter to return to the main menu...")
 
@@ -147,6 +157,7 @@ def list_courses():
 def search_student_by_name():
     search_name = input("Enter the name of the student to search: ")
     found_students = []
+
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
@@ -164,6 +175,7 @@ def search_student_by_name():
 def search_student_by_id():
     search_id = input("Enter the ID Number of the student to search: ")
     found_students = []
+    
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
