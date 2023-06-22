@@ -86,10 +86,10 @@ def delete_student():
         print("Student not found.")
 
     input("Press Enter to return to the main menu...")
-    
-# Function to delete a course
+
+# Function to delete course
 def delete_course():
-    course_id = input("Enter the Course Code of the course to delete: ")
+    course_id = input("Enter the Course Name of the course to delete: ")
     rows_deleted = 0
     course_found = False
 
@@ -101,7 +101,7 @@ def delete_course():
     with open('courses.csv', 'w', newline='') as course_file:
         course_writer = csv.writer(course_file)
         for row in courses:
-            if row[0] != course_id:
+            if row[1] != course_id:
                 course_writer.writerow(row)
             else:
                 rows_deleted += 1
