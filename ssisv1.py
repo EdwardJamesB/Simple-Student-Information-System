@@ -68,6 +68,7 @@ def add_course():
 def delete_student():
     student_id = input("Enter the ID Number of the student to delete: ")
     rows_deleted = 0
+
     with open('students.csv', 'r', newline='') as file:
         reader = csv.reader(file)
         rows = list(reader)
@@ -78,6 +79,7 @@ def delete_student():
                 writer.writerow(row)
             else:
                 rows_deleted += 1
+
     if rows_deleted > 0:
         print(f"Deleted {rows_deleted} student(s) successfully.")
     else:
@@ -115,7 +117,6 @@ def delete_course():
         for student in students[1:]:
             if student[5] != course_id:
                 student[5] = ''  # Remove the course code
-                rows_deleted += 1
 
             writer.writerow(student)
 
@@ -180,7 +181,7 @@ def search_student_by_name():
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            if row[1].lower() == search_name.lower():
+            if row[1].lower().startswith(search_name.lower()):
                 found_students.append(row)
 
     if found_students:
@@ -190,6 +191,7 @@ def search_student_by_name():
         print("No student found with the given name.")
 
     input("Press Enter to return to the main menu...")
+
 # Function to search student by ID Number
 def search_student_by_id():
     search_id = input("Enter the ID Number of the student to search: ")
@@ -198,7 +200,7 @@ def search_student_by_id():
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            if row[0] == search_id:
+            if row[0].lower().startswith(search_id.lower()):
                 found_students.append(row)
     if found_students:
         for student in found_students:
