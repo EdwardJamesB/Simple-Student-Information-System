@@ -86,39 +86,41 @@ def delete_student():
         print("Student not found.")
 
     input("Press Enter to return to the main menu...")
-
+    
 # Function to delete a course
 def delete_course():
     course_id = input("Enter the Course Code of the course to delete: ")
     rows_deleted = 0
     course_found = False
 
-    with open('courses.csv', 'r', newline='') as file:
-        reader = csv.reader(file)
-        courses = list(reader)
+    # Delete course from courses.csv
+    with open('courses.csv', 'r', newline='') as course_file:
+        course_reader = csv.reader(course_file)
+        courses = list(course_reader)
 
-    with open('courses.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
+    with open('courses.csv', 'w', newline='') as course_file:
+        course_writer = csv.writer(course_file)
         for row in courses:
             if row[0] != course_id:
-                writer.writerow(row)
+                course_writer.writerow(row)
             else:
                 rows_deleted += 1
                 course_found = True
 
-    with open('students.csv', 'r', newline='') as file:
-        reader = csv.reader(file)
-        students = list(reader)
+    # Delete course from students.csv
+    with open('students.csv', 'r', newline='') as student_file:
+        student_reader = csv.reader(student_file)
+        students = list(student_reader)
 
-    with open('students.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(students[0])  # Write the header row
+    with open('students.csv', 'w', newline='') as student_file:
+        student_writer = csv.writer(student_file)
+        student_writer.writerow(students[0])  # Write the header row
 
         for student in students[1:]:
-            if student[5] != course_id:
-                student[5] = ''  # Remove the course code
+            if student[5] == course_id:
+                student[5] = ''  # Remove the course
 
-            writer.writerow(student)
+            student_writer.writerow(student)
 
     if course_found and rows_deleted > 0:
         print(f"Deleted {rows_deleted} course(s) and removed the associated course from the student records successfully.")
