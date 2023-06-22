@@ -49,7 +49,7 @@ def add_course():
     # Check if input ID already exists
     for row in existing_data:
         if course_data[0] == row[0]:
-            print("Course with ID Number", course_data[0], "already exists.")
+            print("Course with Course Code '",course_data[0],"' already exists.")
             input("Press Enter to return to the main menu...")
             return
         
@@ -89,21 +89,38 @@ def delete_student():
 def delete_course():
     course_id = input("Enter the Course Code of the course to delete: ")
     rows_deleted = 0
+    course_found = False
 
     with open('courses.csv', 'r', newline='') as file:
         reader = csv.reader(file)
-        rows = list(reader)
+        courses = list(reader)
 
     with open('courses.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        for row in rows:
+        for row in courses:
             if row[0] != course_id:
                 writer.writerow(row)
             else:
                 rows_deleted += 1
+                course_found = True
 
-    if rows_deleted > 0:
-        print(f"Deleted {rows_deleted} course(s) successfully.")
+    with open('students.csv', 'r', newline='') as file:
+        reader = csv.reader(file)
+        students = list(reader)
+
+    with open('students.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(students[0])  # Write the header row
+
+        for student in students[1:]:
+            if student[5] != course_id:
+                student[5] = ''  # Remove the course code
+                rows_deleted += 1
+
+            writer.writerow(student)
+
+    if course_found and rows_deleted > 0:
+        print(f"Deleted {rows_deleted} course(s) and removed the associated course from the student records successfully.")
     else:
         print("Course not found.")
 
@@ -122,10 +139,12 @@ def edit_student():
         writer = csv.writer(file)
         for row in rows:
             if row[0] == student_id:
+                found = True
                 row[1] = input("Enter First Name: ")
                 row[2] = input("Enter Last Name: ")
                 row[3] = input("Enter Gender: ")
                 row[4] = input("Enter Year: ")
+                row[5] = input("Enter Course: ")
             writer.writerow(row)
 
     if found:
