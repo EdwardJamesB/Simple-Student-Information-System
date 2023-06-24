@@ -94,6 +94,7 @@ def delete_course():
     course_id = input("Enter the Course Name of the course to delete: ")
     rows_deleted = 0
     course_found = False
+    associated_courses_found = False  # New flag variable
 
     # Delete course from courses.csv
     with open('courses.csv', 'r', newline='') as course_file:
@@ -121,11 +122,15 @@ def delete_course():
         for student in students[1:]:
             if student[5] == course_id:
                 student[5] = ''  # Remove the course
+                associated_courses_found = True  # Set the flag if an associated course is found
 
             student_writer.writerow(student)
 
     if course_found and rows_deleted > 0:
-        print(f"Deleted {rows_deleted} course(s) and removed the associated course from the student records successfully.")
+        if associated_courses_found:
+            print(f"Deleted {rows_deleted} course(s) and removed the associated course from the student records successfully.")
+        else:
+            print(f"Deleted {rows_deleted} course(s) successfully.")
     else:
         print("Course not found.")
 
