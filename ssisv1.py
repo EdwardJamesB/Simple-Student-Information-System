@@ -14,7 +14,7 @@ def add_student():
 
     # Check if input ID already exists
     for row in existing_data:
-        if student_data[0] == row[0]:
+        if len(row) > 0 and student_data[0] == row[0]:  # Add a check for row length
             print("Student with ID Number", student_data[0], "already exists.")
             input("Press Enter to return to the main menu...")
             return
@@ -34,10 +34,11 @@ def add_student():
     print("Student added successfully.")
     input("Press Enter to return to the main menu...")
 
+
 # Function to add a course
 def add_course():
     course_data = []
-    
+
     # Get input data from user
     course_data.append(input("Enter Course Code: "))
 
@@ -46,17 +47,18 @@ def add_course():
         reader = csv.reader(file)
         existing_data = list(reader)
 
-    # Check if input ID already exists
+    # Check if input course code already exists
     for row in existing_data:
-        if course_data[0] == row[0]:
-            print("Course with Course Code '",course_data[0],"' already exists.")
+        if len(row) > 0 and course_data[0] == row[0]:  # Add a check for row length
+            print("Course with Code", course_data[0], "already exists.")
             input("Press Enter to return to the main menu...")
             return
-        
+
     # Collect remaining input data
-    course_data.append(input("Enter Name: "))
+    course_data.append(input("Enter Course Name: "))
     course_data.append(input("Enter College: "))
-    
+
+    # Append new course data to CSV
     with open('courses.csv', 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(course_data)
