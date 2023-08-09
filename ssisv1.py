@@ -164,6 +164,31 @@ def edit_student():
 
     input("Press Enter to return to the main menu...")
 
+# Function to edit a course
+def edit_course():
+    course_code = input("Enter the Course Code of the course to edit: ")
+    found = False  # Flag to track if the course is found
+
+    with open('courses.csv', 'r', newline='') as file:
+        reader = csv.reader(file)
+        rows = list(reader)
+
+    with open('courses.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        for row in rows:
+            if row[0] == course_code:
+                found = True
+                row[1] = input("Enter Course Name: ")
+                row[2] = input("Enter College: ")
+            writer.writerow(row)
+
+    if found:
+        print("Course edited successfully.")
+    else:
+        print("No course found with Course Code:", course_code)
+
+    input("Press Enter to return to the main menu...")
+
 # Function to list students
 def list_students():
     with open('students.csv', 'r') as file:
@@ -228,10 +253,11 @@ def main_menu():
         print("3. Delete Student")
         print("4. Delete Course")
         print("5. Edit Student")
-        print("6. List Students")
-        print("7. List Courses")
-        print("8. Search Student by Name")
-        print("9. Search Student by ID")
+        print("6. Edit Course")  
+        print("7. List Students")
+        print("8. List Courses")
+        print("9. Search Student by Name")
+        print("10. Search Student by ID")
         print("0. Exit")
 
         choice = input("Enter your choice: ")
@@ -247,12 +273,14 @@ def main_menu():
         elif choice == '5':
             edit_student()
         elif choice == '6':
-            list_students()
+            edit_course()  
         elif choice == '7':
-            list_courses()
+            list_students()
         elif choice == '8':
-            search_student_by_name()
+            list_courses()
         elif choice == '9':
+            search_student_by_name()
+        elif choice == '10':
             search_student_by_id()
         elif choice == '0':
             print("Exiting the program...")
