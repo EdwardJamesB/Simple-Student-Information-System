@@ -244,6 +244,43 @@ def search_student_by_id():
 
     input("Press Enter to return to the main menu...")
 
+# Function to search course by course name
+def search_course_by_name():
+    search_name = input("Enter the name of the course to search: ")
+    found_courses = []
+
+    with open('courses.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[1].lower().startswith(search_name.lower()):
+                found_courses.append(row)
+
+    if found_courses:
+        for course in found_courses:
+            print(course)
+    else:
+        print("No course found with the given name.")
+
+    input("Press Enter to return to the main menu...")
+
+# Function to search course by course code
+def search_course_by_code():
+    search_code = input("Enter the Course Code of the course to search: ")
+    found_courses = []
+    
+    with open('courses.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0].lower().startswith(search_code.lower()):
+                found_courses.append(row)
+    if found_courses:
+        for course in found_courses:
+            print(course)
+    else:
+        print("No course found with the given Course Code.")
+
+    input("Press Enter to return to the main menu...")
+
 # Main menu
 def main_menu():
     while True:
@@ -258,6 +295,8 @@ def main_menu():
         print("8. List Courses")
         print("9. Search Student by Name")
         print("10. Search Student by ID")
+        print("11. Search Course by Name")
+        print("12. Search Course by Code")
         print("0. Exit")
 
         choice = input("Enter your choice: ")
@@ -282,6 +321,10 @@ def main_menu():
             search_student_by_name()
         elif choice == '10':
             search_student_by_id()
+        elif choice == '11':
+            search_course_by_name()
+        elif choice == '12':
+            search_course_by_code()
         elif choice == '0':
             print("Exiting the program...")
             break
