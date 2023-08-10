@@ -215,7 +215,12 @@ def search_student_by_name():
     with open('students.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            if row[1].lower().startswith(search_name.lower()):
+            full_name_parts = row[1].split()  # Split the full name into parts
+            for name_part in full_name_parts:
+                if name_part.lower().startswith(search_name.lower()):
+                    found_students.append(row)
+                    break  # If any part of the name matches, add the student and break the loop
+            if row[2].lower().startswith(search_name.lower()):  # Check if the last name matches
                 found_students.append(row)
 
     if found_students:
